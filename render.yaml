@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: criterion-college
+    env: node
+    nodeVersion: 20.18.0
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false

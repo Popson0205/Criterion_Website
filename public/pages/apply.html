@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Admission — Criterion College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="cc-nav"></div>
+<div class="page-banner">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span>›</span><a href="/pages/admissions.html">Admissions</a><span>›</span>Apply</div>
+    <h1>Application Form</h1>
+    <p>Complete the form below. All fields marked <span style="color:var(--gold-400)">*</span> are required.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container" style="max-width:860px">
+    <div id="successBox" style="display:none;background:var(--green-100);border:1px solid var(--green-500);border-radius:var(--radius-lg);padding:32px;text-align:center;margin-bottom:32px">
+      <div style="font-size:3rem;margin-bottom:12px">✅</div>
+      <h3 style="color:var(--green-800);margin-bottom:8px">Application Submitted!</h3>
+      <p style="margin-bottom:16px">Your reference number is:</p>
+      <div id="refDisplay" style="font-size:1.8rem;font-weight:800;color:var(--green-700);background:var(--white);padding:12px 24px;border-radius:var(--radius);display:inline-block;border:2px solid var(--green-300)"></div>
+      <p style="margin-top:16px;font-size:0.9rem">Please save this number. Use it to <a href="/pages/admission-status.html" style="color:var(--green-700);font-weight:600">check your application status</a>.</p>
+    </div>
+
+    <div id="formWrap" class="card">
+      <div id="alertBox" class="alert"></div>
+      <form id="applyForm">
+        <div class="form-section-title">Student Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surname <span class="req">*</span></label>
+            <input type="text" name="surname" class="form-control" placeholder="Last name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">First Name <span class="req">*</span></label>
+            <input type="text" name="firstName" class="form-control" placeholder="First name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Other Name</label>
+            <input type="text" name="otherName" class="form-control" placeholder="Middle name (optional)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sex <span class="req">*</span></label>
+            <select name="sex" class="form-control" required>
+              <option value="">Select...</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" name="dob" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Class Applying For <span class="req">*</span></label>
+            <select name="classApplying" class="form-control" required>
+              <option value="">Select class...</option>
+              <option value="JSS1">JSS 1</option>
+              <option value="JSS2">JSS 2</option>
+              <option value="JSS3">JSS 3</option>
+              <option value="SS1">SS 1</option>
+              <option value="SS2">SS 2</option>
+              <option value="SS3">SS 3</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Home Address</label>
+          <input type="text" name="homeAddress" class="form-control" placeholder="Full residential address">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">State of Origin</label>
+            <input type="text" name="stateOfOrigin" class="form-control" placeholder="State">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Local Government</label>
+            <input type="text" name="localGovt" class="form-control" placeholder="LGA">
+          </div>
+        </div>
+
+        <div class="form-section-title">Previous School</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Previous School Name</label>
+            <input type="text" name="prevSchoolName" class="form-control" placeholder="Name of last school attended">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Class Attended</label>
+            <input type="text" name="prevSchoolClass" class="form-control" placeholder="e.g. Primary 6">
+          </div>
+        </div>
+
+        <div class="form-section-title">Parent / Guardian Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Parent / Guardian Name <span class="req">*</span></label>
+            <input type="text" name="parentName" class="form-control" placeholder="Full name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Relationship</label>
+            <select name="parentRelationship" class="form-control">
+              <option value="">Select...</option>
+              <option value="Father">Father</option>
+              <option value="Mother">Mother</option>
+              <option value="Guardian">Guardian</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="req">*</span></label>
+            <input type="tel" name="phone" class="form-control" placeholder="e.g. 08012345678" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number</label>
+            <input type="tel" name="whatsapp" class="form-control" placeholder="If different from phone">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parent Occupation</label>
+          <input type="text" name="parentOccupation" class="form-control" placeholder="Occupation">
+        </div>
+
+        <div style="margin-top:32px">
+          <button type="submit" class="btn btn-green btn-lg btn-block" id="submitBtn">
+            Submit Application
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="cc-footer"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/main.js"></script>
+<script>
+document.getElementById('applyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const alert = document.getElementById('alertBox');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loader"></span> Submitting...';
+
+  const fd = new FormData(this);
+  const data = {};
+  fd.forEach((v, k) => { data[k] = v.trim(); });
+
+  try {
+    const res = await apiFetch('/api/admission/apply', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('refDisplay').textContent = res.refNumber;
+    document.getElementById('successBox').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch(err) {
+    showAlert(alert, err.message || 'Submission failed. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application';
+  }
+});
+</script>
+</body></html>
