@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Portal — Criterion College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="dash-wrap">
+  <nav class="dash-nav">
+    <div class="dash-nav-brand">
+      Criterion College <span id="portalLabel">Staff Portal</span>
+    </div>
+    <div class="dash-nav-user">
+      <span id="navName" style="color:var(--green-100)"></span>
+      <span id="rolePill" style="font-size:0.72rem;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:100px;color:var(--white)"></span>
+      <a href="/pages/login.html" onclick="logout();return false;" style="color:var(--gold-400);font-weight:600;font-size:0.82rem">Logout</a>
+    </div>
+  </nav>
+
+  <div class="dash-body">
+    <div class="dash-greeting">
+      <h2>Good day, <span id="greetName"></span> 👋</h2>
+      <p>Here are the latest notices and announcements from management.</p>
+    </div>
+
+    <!-- Admin: Post Notice -->
+    <div class="dash-panel" id="postNoticePanel" style="display:none">
+      <div class="dash-panel-header">
+        <h3>Post a Notice</h3>
+        <button class="btn btn-ghost btn-sm" id="togglePostBtn">+ New Notice</button>
+      </div>
+      <div id="postForm" style="display:none">
+        <div id="postAlert" class="alert"></div>
+        <div class="form-group">
+          <label class="form-label">Title <span class="req">*</span></label>
+          <input type="text" id="noticeTitle" class="form-control" placeholder="Notice subject">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Priority</label>
+            <select id="noticePriority" class="form-control">
+              <option value="normal">Normal</option>
+              <option value="urgent">Urgent</option>
+              <option value="info">Info</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target</label>
+            <select id="noticeTarget" class="form-control">
+              <option value="teacher">Teachers</option>
+              <option value="all">All Staff</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message <span class="req">*</span></label>
+          <textarea id="noticeBody" class="form-control" placeholder="Notice content..." style="min-height:100px"></textarea>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-green btn-sm" id="postBtn">Post Notice</button>
+          <button class="btn btn-ghost btn-sm" id="cancelPostBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notices List -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <h3>Notices &amp; Announcements</h3>
+        <button class="btn btn-ghost btn-sm" id="refreshBtn">↻ Refresh</button>
+      </div>
+      <div id="noticesArea"><div style="text-align:center;padding:24px"><span class="loader loader-green"></span></div></div>
+    </div>
+
+    <!-- Quick Links for Staff -->
+    <div class="dash-panel" id="quickLinksPanel">
+      <div class="dash-panel-header"><h3>Quick Links</h3></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="/" class="btn btn-ghost btn-sm">🏠 School Website</a>
+        <a href="/pages/contact.html" class="btn btn-ghost btn-sm">📞 Contact Admin</a>
+        <div id="adminLinks" style="display:none;display:flex;gap:12px;flex-wrap:wrap">
+          <a href="/index.html" class="btn btn-green btn-sm">🛡️ Open Admin Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+requireStaffAuth();
+
+const role = getRole();
+const name = getName();
+document.getElementById('navName').textContent   = name;
+document.getElementById('greetName').textContent = name ? name.split(' ')[0] : 'Staff';
+document.getElementById('rolePill').textContent  = role ? role.charAt(0).toUpperCase() + role.slice(1) : '';
+
+if (role === 'admin') {
+  document.getElementById('postNoticePanel').style.display = 'block';
+  document.getElementById('adminLinks').style.display = 'flex';
+}
+
+async function loadNotices() {
+  const area = document.getElementById('noticesArea');
+  area.innerHTML = '<div style="text-align:center;padding:24px"><span class="loader loader-green"></span></div>';
+  try {
+    const notices = await apiFetch('/api/notices');
+    if (notices.length === 0) {
+      area.innerHTML = '<p style="color:var(--gray-500);font-size:0.9rem">No notices at this time. Check back later.</p>';
+      return;
+    }
+    const priorityMap = { urgent: 'badge-urgent', normal: 'badge-normal', info: 'badge-info' };
+    area.innerHTML = notices.map(n => `
+      <div class="notice-item">
+        <div class="notice-item-header">
+          <h4>${esc(n.title)}</h4>
+          <span class="badge ${priorityMap[n.priority] || 'badge-normal'}">${n.priority || 'normal'}</span>
+        </div>
+        <p>${esc(n.body)}</p>
+        <div class="notice-item-meta">Posted by ${esc(n.authorName || 'Admin')} · ${fmtDate(n.createdAt)}
+          ${role === 'admin' ? `<button onclick="deleteNotice('${n.id}')" style="margin-left:12px;color:#ef4444;background:none;border:none;cursor:pointer;font-size:0.78rem;font-weight:600">Delete</button>` : ''}
+        </div>
+      </div>`).join('');
+  } catch(err) {
+    area.innerHTML = `<p style="color:#ef4444;font-size:0.9rem">Error: ${esc(err.message)}</p>`;
+  }
+}
+
+document.getElementById('refreshBtn').addEventListener('click', loadNotices);
+
+// Post notice (admin only)
+document.getElementById('togglePostBtn')?.addEventListener('click', () => {
+  const f = document.getElementById('postForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('cancelPostBtn')?.addEventListener('click', () => {
+  document.getElementById('postForm').style.display = 'none';
+});
+document.getElementById('postBtn')?.addEventListener('click', async () => {
+  const title    = document.getElementById('noticeTitle').value.trim();
+  const body     = document.getElementById('noticeBody').value.trim();
+  const priority = document.getElementById('noticePriority').value;
+  const target   = document.getElementById('noticeTarget').value;
+  const alert    = document.getElementById('postAlert');
+  if (!title || !body) return showAlert(alert, 'Title and message are required.');
+  try {
+    await apiFetch('/api/notices', { method:'POST', body: JSON.stringify({ title, body, priority, targetRole: target }) });
+    document.getElementById('noticeTitle').value = '';
+    document.getElementById('noticeBody').value  = '';
+    document.getElementById('postForm').style.display = 'none';
+    showAlert(alert, 'Notice posted successfully.', 'success');
+    loadNotices();
+  } catch(err) {
+    showAlert(alert, err.message);
+  }
+});
+
+async function deleteNotice(id) {
+  if (!confirm('Delete this notice?')) return;
+  try {
+    await apiFetch(`/api/notices/${id}`, { method:'DELETE' });
+    loadNotices();
+  } catch(err) { alert(err.message); }
+}
+
+loadNotices();
+</script>
+</body></html>
