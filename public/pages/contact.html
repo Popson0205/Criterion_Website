@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Criterion Amazing College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="cc-nav"></div>
+<div class="page-banner">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span>›</span>Contact</div>
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you. Reach out through any of the channels below.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:60px;align-items:start">
+      <div>
+        <h3 style="margin-bottom:24px">Get in Touch</h3>
+        <div id="alertBox" class="alert"></div>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name <span class="req">*</span></label>
+              <input type="text" name="name" class="form-control" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" name="phone" class="form-control" placeholder="08012345678">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject <span class="req">*</span></label>
+            <select name="subject" class="form-control" required>
+              <option value="">Select a subject...</option>
+              <option value="Admissions Enquiry">Admissions Enquiry</option>
+              <option value="Fee Payment">Fee Payment</option>
+              <option value="Student Results">Student Results</option>
+              <option value="General Enquiry">General Enquiry</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message <span class="req">*</span></label>
+            <textarea name="message" class="form-control" placeholder="How can we help you?" required style="min-height:120px"></textarea>
+          </div>
+          <button type="submit" class="btn btn-green btn-block" id="sendBtn">Send Message</button>
+        </form>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:24px">School Information</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:32px">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:44px;height:44px;background:var(--green-100);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">📍</div>
+            <div><div style="font-weight:600;color:var(--gray-900);margin-bottom:2px">Address</div><p style="font-size:0.9rem">1 Criterion Amazing College Road, Education District, [Your City], Nigeria</p></div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:44px;height:44px;background:var(--green-100);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">📞</div>
+            <div><div style="font-weight:600;color:var(--gray-900);margin-bottom:2px">Phone</div><a href="tel:+2348030463652" style="font-size:0.9rem;color:var(--green-700)">+2348030463652</a></div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:44px;height:44px;background:var(--green-100);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">✉️</div>
+            <div><div style="font-weight:600;color:var(--gray-900);margin-bottom:2px">Email</div><a href="mailto:info@criterionamazingcollege.edu.ng" style="font-size:0.9rem;color:var(--green-700)">info@criterionamazingcollege.edu.ng</a></div>
+          </div>
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <div style="width:44px;height:44px;background:var(--green-100);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🕐</div>
+            <div><div style="font-weight:600;color:var(--gray-900);margin-bottom:2px">Office Hours</div><p style="font-size:0.9rem">Monday – Friday: 7:30 AM – 4:00 PM<br>Saturday: 9:00 AM – 12:00 PM</p></div>
+          </div>
+        </div>
+        <!-- Map placeholder -->
+        <div style="background:var(--gray-200);border-radius:var(--radius-lg);height:220px;display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:0.9rem;border:1px solid var(--gray-300)">
+          🗺️ Replace with Google Maps embed
+        </div>
+        <p style="font-size:0.78rem;color:var(--gray-500);margin-top:8px">To embed a real map: replace the div above with an &lt;iframe&gt; from Google Maps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="cc-footer"></div>
+<script src="/js/layout.js"></script>
+<script src="/js/main.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const alert = document.getElementById('alertBox');
+  // In production, wire this to an email API (e.g. EmailJS, Formspree, or a /api/contact route)
+  showAlert(alert, '✅ Message received! We will get back to you within 1–2 business days.', 'success');
+  this.reset();
+});
+</script>
+</body></html>

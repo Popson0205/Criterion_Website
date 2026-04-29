@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Criterion Amazing College — Online Admission Form 2026/2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark: #1a6e3c; --green-mid: #145530; --green-light: #55A845;
+      --gold: #f5c518; --gold-light: #fef9e7; --gold-border: #e6b800;
+      --surface: #f9fafb; --text: #111827; --text-muted: #6b7280;
+      --border: #e5e7eb; --radius: 10px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; }
+
+    /* Header */
+    .school-header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      color: white; padding: 20px 24px; display: flex; align-items: center; gap: 16px;
+    }
+    .school-header img { width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.4); object-fit: contain; background: white; }
+    .logo-placeholder {
+      width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; color: white; flex-shrink: 0;
+    }
+    .school-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
+    .school-phone { font-size: 13px; color: var(--gold); margin-top: 2px; }
+    .school-motto { font-size: 11px; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 2px; }
+
+    /* Nav back link */
+    .back-bar { background: var(--green-mid); padding: 8px 24px; }
+    .back-bar a { color: rgba(255,255,255,0.75); font-size: 12px; font-weight: 600; text-decoration: none; }
+    .back-bar a:hover { color: var(--gold); }
+
+    /* Form wrapper */
+    .form-wrapper { max-width: 780px; margin: 32px auto; padding: 0 16px 60px; }
+    .form-title {
+      text-align: center; font-size: 26px; font-weight: 900; color: var(--green-dark);
+      text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 6px; margin-bottom: 6px;
+    }
+    .form-subtitle { text-align: center; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 28px; }
+
+    /* Section blocks */
+    .section-block { background: white; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; }
+    .section-header { background: var(--green-dark); color: white; font-size: 13px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; padding: 10px 18px; }
+    .section-body { padding: 20px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .section-body.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* Passport + layout */
+    .top-layout { display: flex; gap: 20px; padding: 20px 18px; align-items: flex-start; }
+    .passport-box { width: 130px; flex-shrink: 0; }
+    .passport-label {
+      border: 2px dashed var(--border); border-radius: 8px; width: 120px; height: 140px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; overflow: hidden; background: var(--surface); transition: border-color 0.2s;
+    }
+    .passport-label:hover { border-color: var(--green-light); }
+    .passport-label img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+    .pp-hint { font-size: 11px; color: var(--text-muted); text-align: center; padding: 8px; line-height: 1.4; }
+    .pp-icon { font-size: 28px; margin-bottom: 6px; }
+    #passportInput { display: none; }
+    .left-info { display: flex; flex-direction: column; gap: 12px; }
+    .fields-right { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Fields */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 11px; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.5px; }
+    .field input, .field select, .field textarea {
+      padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text);
+      background: var(--surface); transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(85,168,69,0.15); background: white;
+    }
+    .field textarea { resize: vertical; min-height: 72px; }
+
+    /* Phone row */
+    .phone-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      padding: 16px 18px; background: var(--green-dark);
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .phone-row label { color: white; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; display: block; }
+    .phone-row input {
+      padding: 9px 12px; border: 1.5px solid rgba(255,255,255,0.3); border-radius: 7px;
+      font-size: 14px; font-family: 'Inter', sans-serif; color: white; background: rgba(255,255,255,0.1); width: 100%;
+    }
+    .phone-row input::placeholder { color: rgba(255,255,255,0.5); }
+    .phone-row input:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.15); }
+    .whatsapp-label { color: var(--gold) !important; }
+
+    /* Submit */
+    .submit-area { text-align: center; margin-top: 28px; }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      color: white; border: none; padding: 14px 48px; border-radius: 10px;
+      font-size: 16px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 16px rgba(26,110,60,0.35);
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,110,60,0.45); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Check status bar */
+    .check-status-bar {
+      text-align: center; padding: 12px; margin-bottom: 20px;
+      background: var(--gold-light); border: 1px solid var(--gold-border);
+      border-radius: var(--radius); font-size: 13px;
+    }
+    .check-status-bar a { color: var(--green-dark); font-weight: 700; cursor: pointer; text-decoration: underline; }
+
+    /* Success screen */
+    #successScreen { display: none; text-align: center; padding: 60px 24px; }
+    .success-icon { font-size: 72px; margin-bottom: 16px; }
+    .success-title { font-size: 26px; font-weight: 900; color: var(--green-dark); margin-bottom: 8px; }
+    .success-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 28px; }
+    .ref-box {
+      display: inline-block; background: var(--gold-light); border: 2px solid var(--gold-border);
+      border-radius: 12px; padding: 16px 32px; margin-bottom: 28px;
+    }
+    .ref-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .ref-number { font-size: 32px; font-weight: 900; color: var(--green-dark); letter-spacing: 2px; margin-top: 4px; }
+    .ref-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+    /* Status modal */
+    #statusModal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 999; align-items: center; justify-content: center;
+    }
+    #statusModal.open { display: flex; }
+    .modal-card { background: white; border-radius: 16px; padding: 32px; width: 90%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-title { font-size: 18px; font-weight: 800; color: var(--green-dark); margin-bottom: 16px; }
+    .modal-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+    .status-badge { display: inline-block; padding: 6px 16px; border-radius: 99px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status-pending  { background: #fef3c7; color: #92400e; }
+    .status-admitted { background: #d1fae5; color: #065f46; }
+    .status-rejected { background: #fee2e2; color: #991b1b; }
+
+    .form-error-banner {
+      background: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px;
+      padding: 12px 16px; font-size: 13px; color: #dc2626; margin-bottom: 16px; display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .section-body, .section-body.cols-3, .fields-right { grid-template-columns: 1fr; }
+      .top-layout { flex-direction: column; align-items: center; }
+      .passport-box { width: 100%; display: flex; flex-direction: column; align-items: center; }
+      .form-title { font-size: 20px; }
+      .phone-row { grid-template-columns: 1fr; }
+      .school-name { font-size: 16px; }
+    }
+    @media (min-width: 601px) and (max-width: 900px) {
+      .section-body.cols-3 { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="school-header">
+  <img src="/icons/icon-192x192.png" alt="Criterion Amazing College Logo"
+       onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'" />
+  <div class="logo-placeholder" id="logoFallback" style="display:none">CC</div>
+  <div>
+    <div class="school-name">CRITERION AMAZING COLLEGE, OSOGBO</div>
+    <div class="school-phone">+2348030463652</div>
+    <div class="school-motto">Training a global competitive students is our watchword</div>
+  </div>
+</div>
+<div class="back-bar">
+  <a href="/">← Back to school website</a>
+</div>
+
+<div class="form-wrapper">
+
+  <div class="check-status-bar">
+    Already applied? <a onclick="openStatusModal()">Check your application status →</a>
+  </div>
+
+  <div id="successScreen">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Application Submitted!</div>
+    <div class="success-sub">Your application has been received. Keep your reference number safe.</div>
+    <div class="ref-box">
+      <div class="ref-label">Your Application Reference</div>
+      <div class="ref-number" id="refDisplay">—</div>
+      <div class="ref-note">Use this to check your admission status</div>
+    </div>
+    <p style="font-size:13px;color:#6b7280;max-width:400px;margin:0 auto;">
+      The school will review your application and update your status.
+      Come back and click <strong>"Check your application status"</strong> with your reference number.
+    </p>
+  </div>
+
+  <div id="admissionForm">
+    <div class="form-title">2026/2027 Admission Form</div>
+    <div class="form-subtitle">Please, complete this form in BLOCK LETTERS</div>
+    <div class="form-error-banner" id="formErrorBanner"></div>
+
+    <!-- Student Details -->
+    <div class="section-block">
+      <div class="section-header">Student's Details</div>
+      <div class="top-layout">
+        <div class="passport-box">
+          <label class="passport-label" for="passportInput" id="passportLabel">
+            <div class="pp-icon">📷</div>
+            <div class="pp-hint">Tap to upload passport photo</div>
+          </label>
+          <input type="file" id="passportInput" accept="image/*" onchange="handlePassport(event)" />
+          <p style="font-size:10px;color:#9ca3af;text-align:center;margin-top:6px;">AFFIX RECENT PASSPORT</p>
+        </div>
+        <div class="left-info">
+          <div class="field">
+            <label>Sex *</label>
+            <select id="sex">
+              <option value="">— Select —</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>State of Origin *</label>
+            <input type="text" id="stateOfOrigin" placeholder="e.g. Osun" />
+          </div>
+          <div class="field">
+            <label>Local Government</label>
+            <input type="text" id="localGovt" placeholder="e.g. Osogbo" />
+          </div>
+          <div class="field">
+            <label>Hometown</label>
+            <input type="text" id="hometown" placeholder="e.g. Osogbo" />
+          </div>
+        </div>
+        <div class="fields-right">
+          <div class="field">
+            <label>Surname *</label>
+            <input type="text" id="surname" placeholder="SURNAME" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label>First Name *</label>
+            <input type="text" id="firstName" placeholder="FIRST NAME" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label>Other Name</label>
+            <input type="text" id="otherName" placeholder="OTHER NAME" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label>Date of Birth</label>
+            <input type="date" id="dob" />
+          </div>
+          <div class="field full">
+            <label>Home Address *</label>
+            <textarea id="homeAddress" placeholder="Full home address" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Previous School -->
+    <div class="section-block">
+      <div class="section-header">Previous School Attended</div>
+      <div class="section-body cols-3">
+        <div class="field full">
+          <label>Name of the School</label>
+          <input type="text" id="prevSchoolName" placeholder="Previous school name" />
+        </div>
+        <div class="field">
+          <label>Town Where School is Located</label>
+          <input type="text" id="prevSchoolTown" placeholder="Town" />
+        </div>
+        <div class="field">
+          <label>Class</label>
+          <input type="text" id="prevSchoolClass" placeholder="e.g. JSS 3" />
+        </div>
+        <div class="field">
+          <label>Year</label>
+          <input type="text" id="prevSchoolYear" placeholder="e.g. 2025" maxlength="4" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Parents / Guardian -->
+    <div class="section-block">
+      <div class="section-header">Parents / Guardian Details</div>
+      <div class="section-body">
+        <div class="field">
+          <label>Name *</label>
+          <input type="text" id="parentName" placeholder="Full name" />
+        </div>
+        <div class="field">
+          <label>Relationship to Student *</label>
+          <select id="parentRelationship">
+            <option value="">— Select —</option>
+            <option>Father</option>
+            <option>Mother</option>
+            <option>Guardian</option>
+            <option>Uncle</option>
+            <option>Aunt</option>
+            <option>Grandparent</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Office Address</label>
+          <textarea id="parentOfficeAddress" placeholder="Office / work address" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Occupation</label>
+          <input type="text" id="parentOccupation" placeholder="e.g. Civil Servant" />
+        </div>
+      </div>
+      <div class="phone-row">
+        <div>
+          <label>Phone Number *</label>
+          <input type="tel" id="phone" placeholder="08XXXXXXXXX" />
+        </div>
+        <div>
+          <label class="whatsapp-label">WhatsApp Number</label>
+          <input type="tel" id="whatsapp" placeholder="08XXXXXXXXX (if different)" />
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-submit" id="submitBtn" onclick="submitApplication()">Submit Application →</button>
+      <p style="font-size:12px;color:#9ca3af;margin-top:12px;">Fields marked with * are required</p>
+    </div>
+  </div>
+</div>
+
+<!-- Status Modal -->
+<div id="statusModal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeStatusModal()">✕</button>
+    <div class="modal-title">Check Application Status</div>
+    <div class="field" style="margin-bottom:14px;">
+      <label>Your Reference Number</label>
+      <input type="text" id="statusRefInput" placeholder="e.g. CC-2026-0001" style="text-transform:uppercase;font-size:16px;" />
+    </div>
+    <button class="btn-submit" style="width:100%;padding:12px;" onclick="checkStatus()">Check Status</button>
+    <div id="statusResult" style="margin-top:20px;display:none;">
+      <hr style="margin-bottom:16px;border:none;border-top:1px solid #e5e7eb;" />
+      <div id="statusContent"></div>
+    </div>
+    <div id="statusError" style="color:#dc2626;font-size:13px;margin-top:12px;display:none;"></div>
+  </div>
+</div>
+
+<script>
+  let passportBase64 = '';
+
+  function handlePassport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      passportBase64 = e.target.result;
+      document.getElementById('passportLabel').innerHTML = `<img src="${passportBase64}" alt="Passport" />`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  async function submitApplication() {
+    const btn    = document.getElementById('submitBtn');
+    const banner = document.getElementById('formErrorBanner');
+    banner.style.display = 'none';
+
+    const required = [
+      { id: 'surname',            label: 'Surname' },
+      { id: 'firstName',          label: 'First Name' },
+      { id: 'sex',                label: 'Sex' },
+      { id: 'stateOfOrigin',      label: 'State of Origin' },
+      { id: 'homeAddress',        label: 'Home Address' },
+      { id: 'parentName',         label: 'Parent/Guardian Name' },
+      { id: 'parentRelationship', label: 'Parent/Guardian Relationship' },
+      { id: 'phone',              label: 'Phone Number' },
+    ];
+    const missing = required.filter(f => !val(f.id));
+    if (missing.length) {
+      banner.textContent = 'Please fill in: ' + missing.map(f => f.label).join(', ');
+      banner.style.display = 'block';
+      banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    const payload = {
+      surname:             val('surname').toUpperCase(),
+      firstName:           val('firstName').toUpperCase(),
+      otherName:           val('otherName').toUpperCase(),
+      sex:                 val('sex'),
+      dob:                 val('dob'),
+      homeAddress:         val('homeAddress'),
+      stateOfOrigin:       val('stateOfOrigin'),
+      localGovt:           val('localGovt'),
+      hometown:            val('hometown'),
+      prevSchoolName:      val('prevSchoolName'),
+      prevSchoolTown:      val('prevSchoolTown'),
+      prevSchoolClass:     val('prevSchoolClass'),
+      prevSchoolYear:      val('prevSchoolYear'),
+      parentName:          val('parentName'),
+      parentRelationship:  val('parentRelationship'),
+      parentOfficeAddress: val('parentOfficeAddress'),
+      parentOccupation:    val('parentOccupation'),
+      phone:               val('phone'),
+      whatsapp:            val('whatsapp'),
+      passport:            passportBase64,
+    };
+
+    try {
+      const res  = await fetch('/api/admission/apply', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      document.getElementById('refDisplay').textContent = data.refNumber;
+      document.getElementById('admissionForm').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      banner.textContent = err.message || 'Something went wrong. Please try again.';
+      banner.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Submit Application →';
+    }
+  }
+
+  function openStatusModal() {
+    document.getElementById('statusModal').classList.add('open');
+    document.getElementById('statusResult').style.display = 'none';
+    document.getElementById('statusError').style.display  = 'none';
+    document.getElementById('statusRefInput').value = '';
+    setTimeout(() => document.getElementById('statusRefInput').focus(), 100);
+  }
+  function closeStatusModal() {
+    document.getElementById('statusModal').classList.remove('open');
+  }
+  document.getElementById('statusModal').addEventListener('click', function(e) {
+    if (e.target === this) closeStatusModal();
+  });
+
+  async function checkStatus() {
+    const ref   = document.getElementById('statusRefInput').value.trim().toUpperCase();
+    const errEl = document.getElementById('statusError');
+    const resEl = document.getElementById('statusResult');
+    errEl.style.display = 'none';
+    resEl.style.display = 'none';
+    if (!ref) { errEl.textContent = 'Please enter your reference number'; errEl.style.display = 'block'; return; }
+    try {
+      const res  = await fetch('/api/admission/status/' + encodeURIComponent(ref));
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Not found');
+      const statusText = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+      document.getElementById('statusContent').innerHTML = `
+        <p style="font-size:14px;margin-bottom:8px;"><strong>${data.surname} ${data.firstName}</strong></p>
+        <p style="font-size:13px;color:#6b7280;margin-bottom:12px;">Ref: <strong>${data.refNumber}</strong></p>
+        <p style="margin-bottom:8px;">Status: <span class="status-badge status-${data.status}">${statusText}</span></p>
+        ${data.classAdmitted ? `<p style="font-size:13px;margin-top:8px;">Class Admitted: <strong>${data.classAdmitted}</strong></p>` : ''}
+        ${data.remark ? `<p style="font-size:13px;margin-top:6px;color:#6b7280;">Remark: ${data.remark}</p>` : ''}
+        <p style="font-size:11px;color:#9ca3af;margin-top:12px;">Applied: ${new Date(data.appliedAt).toLocaleDateString('en-NG', {day:'numeric',month:'long',year:'numeric'})}</p>
+      `;
+      resEl.style.display = 'block';
+    } catch (err) {
+      errEl.textContent = err.message === 'Application not found'
+        ? 'No application found with that reference number.'
+        : err.message;
+      errEl.style.display = 'block';
+    }
+  }
+  document.getElementById('statusRefInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkStatus();
+  });
+</script>
+</body>
+</html>

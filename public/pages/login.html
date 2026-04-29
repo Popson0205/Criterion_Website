@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Login — Criterion Amazing College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-logo-circle">CC</div>
+      <h2>Criterion Amazing College</h2>
+      <p>Portal Login</p>
+    </div>
+
+    <!-- Role Tabs -->
+    <div class="role-tabs" id="roleTabs">
+      <button class="role-tab" data-role="student" id="tabStudent">Student</button>
+      <button class="role-tab" data-role="teacher" id="tabTeacher">Teacher</button>
+      <button class="role-tab" data-role="admin"   id="tabAdmin">Admin</button>
+    </div>
+
+    <div id="alertBox" class="alert"></div>
+
+    <!-- STUDENT LOGIN -->
+    <form id="studentForm" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Student ID</label>
+        <input type="text" id="sStudentId" class="form-control" placeholder="e.g. CC2025-001" autocomplete="username" style="text-transform:uppercase">
+      </div>
+      <div class="form-group">
+        <label class="form-label">PIN</label>
+        <input type="password" id="sPin" class="form-control" placeholder="Enter your PIN" autocomplete="current-password" maxlength="6">
+      </div>
+      <button type="submit" class="btn btn-green btn-block" id="studentBtn">Login to Portal</button>
+    </form>
+
+    <!-- STAFF LOGIN (teacher / admin / bursar) -->
+    <form id="staffForm" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" id="stUsername" class="form-control" placeholder="Your username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="stPassword" class="form-control" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-green btn-block" id="staffBtn">Login</button>
+    </form>
+
+    <div style="text-align:center;margin-top:20px">
+      <a href="/" style="font-size:0.82rem;color:var(--gray-500)">← Back to school website</a>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+  // Determine initial tab from URL param
+  const urlRole = new URLSearchParams(window.location.search).get('role') || 'student';
+  let activeRole = ['student','teacher','admin','bursar'].includes(urlRole) ? urlRole : 'student';
+
+  function setTab(role) {
+    activeRole = role;
+    document.querySelectorAll('.role-tab').forEach(t => t.classList.toggle('active', t.dataset.role === role));
+    document.getElementById('studentForm').style.display = role === 'student' ? 'block' : 'none';
+    document.getElementById('staffForm').style.display   = role !== 'student' ? 'block' : 'none';
+    document.getElementById('alertBox').classList.remove('show');
+  }
+
+  document.querySelectorAll('.role-tab').forEach(btn => {
+    btn.addEventListener('click', () => setTab(btn.dataset.role));
+  });
+  setTab(activeRole);
+
+  // Student login
+  document.getElementById('studentForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('studentBtn');
+    const alert = document.getElementById('alertBox');
+    const studentId = document.getElementById('sStudentId').value.trim().toUpperCase();
+    const pin       = document.getElementById('sPin').value.trim();
+    if (!studentId || !pin) return showAlert(alert, 'Student ID and PIN are required.');
+    btn.disabled = true; btn.innerHTML = '<span class="loader"></span> Logging in...';
+    try {
+      const data = await apiFetch('/api/student-login', { method:'POST', body: JSON.stringify({ studentId, pin }) });
+      saveAuth(data);
+      window.location.href = '/pages/student-portal.html';
+    } catch(err) {
+      showAlert(alert, err.message || 'Login failed.');
+      btn.disabled = false; btn.innerHTML = 'Login to Portal';
+    }
+  });
+
+  // Staff login
+  document.getElementById('staffForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('staffBtn');
+    const alert = document.getElementById('alertBox');
+    const username = document.getElementById('stUsername').value.trim();
+    const password = document.getElementById('stPassword').value;
+    if (!username || !password) return showAlert(alert, 'Username and password are required.');
+    btn.disabled = true; btn.innerHTML = '<span class="loader"></span> Logging in...';
+    try {
+      const data = await apiFetch('/api/login', { method:'POST', body: JSON.stringify({ username, password }) });
+      saveAuth(data);
+      if (data.role === 'teacher' || data.role === 'bursar') {
+        window.location.href = '/pages/teacher-portal.html';
+      } else {
+        window.location.href = '/index.html'; // admin goes to existing Criterion dashboard
+      }
+    } catch(err) {
+      showAlert(alert, err.message || 'Login failed.');
+      btn.disabled = false; btn.innerHTML = 'Login';
+    }
+  });
+
+  // Redirect if already logged in
+  if (isLoggedIn()) {
+    const r = getRole();
+    if (r === 'student') window.location.href = '/pages/student-portal.html';
+    else if (r === 'teacher' || r === 'bursar') window.location.href = '/pages/teacher-portal.html';
+  }
+</script>
+</body></html>
